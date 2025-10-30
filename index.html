@@ -1,32 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reserved Seats</title>
     <style>
+      @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600&display=swap');
+
       body {
-        font-family: 'Black Sans Text', sans-serif;
-        text-align: center;
-        font-size: 31.5px;
-        color: #333;
-        background: transparent;
         margin: 0;
         padding: 0;
+        background: transparent;
+        color: #2c2c2c;
+        text-align: center;
+        font-family: 'Work Sans', sans-serif;
       }
-      .message {
-        margin-top: 10px;
+
+      .container {
+        margin-top: 40px;
+      }
+
+      h2 {
+        font-weight: 600;
+        font-size: 31.5px;
+        color: #2b2b2b;
+        margin-bottom: 8px;
+      }
+
+      p {
+        font-size: 18px;
+        color: #444;
+        margin: 0;
+      }
+
+      .highlight {
+        color: #bfa46f; /* soft gold tone */
+        font-weight: 600;
+      }
+
+      @media (max-width: 600px) {
+        h2 {
+          font-size: 31.5px;
+        }
+        p {
+          font-size: 22px;
+        }
       }
     </style>
   </head>
   <body>
-    <div class="message" id="seatMessage">We’ve reserved seats for you.</div>
+    <div class="container">
+      <h2 id="greeting"></h2>
+      <p id="seatMessage">We’ve reserved seats for you.</p>
+    </div>
 
     <script>
       const params = new URLSearchParams(window.location.search);
       const seats = params.get("seats");
+      const name = params.get("name");
 
+      const greetingEl = document.getElementById("greeting");
       const messageEl = document.getElementById("seatMessage");
+
+      // Greeting (optional)
+      if (name) {
+        greetingEl.textContent = `Dear ${decodeURIComponent(name)},`;
+      }
+
+      // Seats message
       if (seats) {
-        messageEl.textContent = `We’ve reserved ${seats} seat${seats > 1 ? 's' : ''} for you.`;
+        const seatCount = parseInt(seats);
+        messageEl.innerHTML = `We’ve reserved <span class="highlight">${seatCount}</span> seat${seatCount > 1 ? 's' : ''} for you.`;
       } else {
         messageEl.textContent = `We’ve reserved seats for you.`;
       }
